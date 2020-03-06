@@ -17,7 +17,7 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver: lts-15.0
+resolver: lts-14.4
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -39,7 +39,25 @@ packages:
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
-# extra-deps: []
+extra-deps:
+  - git: https://github.com/tensorflow/haskell.git
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+    subdirs:
+      - tensorflow
+      - tensorflow-ops
+      - tensorflow-core-ops
+      - tensorflow-logging
+      - tensorflow-proto
+      - tensorflow-opgen
+      - tensorflow-test
+  - snappy-0.2.0.2
+  - snappy-framing-0.1.1
+
+extra-include-dirs:
+  - /usr/local/include
+
+extra-lib-dirs:
+  - /usr/local/lib
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

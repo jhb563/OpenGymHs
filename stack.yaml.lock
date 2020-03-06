@@ -3,10 +3,136 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    subdir: tensorflow
+    cabal-file:
+      size: 3120
+      sha256: adebe983e70c10ed2a27defeeb11fae6071874e898a1100e39f6409ff195b9ca
+    name: tensorflow
+    version: 0.2.0.1
+    git: https://github.com/tensorflow/haskell.git
+    pantry-tree:
+      size: 1513310
+      sha256: f71f0560eed792812a14091f41128543321d400e56b9ef72428eb7fd2500477f
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+  original:
+    subdir: tensorflow
+    git: https://github.com/tensorflow/haskell.git
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+- completed:
+    subdir: tensorflow-ops
+    cabal-file:
+      size: 8662
+      sha256: a696b919db742eb49b65474e453879bf74437346834b8bf828902eeb9aa69efb
+    name: tensorflow-ops
+    version: 0.2.0.1
+    git: https://github.com/tensorflow/haskell.git
+    pantry-tree:
+      size: 1535
+      sha256: 3ea440d9f4ca6642aa5fa325d7737101c7fac4fd5eb0763f97c6bf719d10e932
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+  original:
+    subdir: tensorflow-ops
+    git: https://github.com/tensorflow/haskell.git
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+- completed:
+    subdir: tensorflow-core-ops
+    cabal-file:
+      size: 1286
+      sha256: 8f521d0aaf222a2d4b6932d38f8312728b24616fad9a7bf2e925cdc3579a40d1
+    name: tensorflow-core-ops
+    version: 0.2.0.1
+    git: https://github.com/tensorflow/haskell.git
+    pantry-tree:
+      size: 166
+      sha256: 8ceb99fd3fe753b3234064c208a37395a143a0a4a5797b2e5711190e8ad9f250
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+  original:
+    subdir: tensorflow-core-ops
+    git: https://github.com/tensorflow/haskell.git
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+- completed:
+    subdir: tensorflow-logging
+    cabal-file:
+      size: 2092
+      sha256: e52ba5a69f17612e57aa23c532464a35803c1e0b4f4db67f16ef86f51764507c
+    name: tensorflow-logging
+    version: 0.2.0.1
+    git: https://github.com/tensorflow/haskell.git
+    pantry-tree:
+      size: 290
+      sha256: 5d722c926a333c007b5c26809f8c78f72d78cbf850b9990e65cc92bedd5ed854
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+  original:
+    subdir: tensorflow-logging
+    git: https://github.com/tensorflow/haskell.git
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+- completed:
+    subdir: tensorflow-proto
+    cabal-file:
+      size: 6799
+      sha256: 030a901ba6cf7080a8a75beefd3908ab53768b7e71ff0df9618061ac0cc7a74d
+    name: tensorflow-proto
+    version: 0.2.0.1
+    git: https://github.com/tensorflow/haskell.git
+    pantry-tree:
+      size: 1667663
+      sha256: 2caa9f674fd8c9ad74a30a2fc04e4d90e5764ebf344280774d0eae74546c95cd
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+  original:
+    subdir: tensorflow-proto
+    git: https://github.com/tensorflow/haskell.git
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+- completed:
+    subdir: tensorflow-opgen
+    cabal-file:
+      size: 1140
+      sha256: cd0b7041380b18bc15f93b40745e4857fc06ca7ec8f80535d22f7f6d7f11e24c
+    name: tensorflow-opgen
+    version: 0.2.0.1
+    git: https://github.com/tensorflow/haskell.git
+    pantry-tree:
+      size: 1512531
+      sha256: 46ae3736f0c276ad2a2ecd22b958951c78a296cffcab3c950e5c1297cbd67ff2
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+  original:
+    subdir: tensorflow-opgen
+    git: https://github.com/tensorflow/haskell.git
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+- completed:
+    subdir: tensorflow-test
+    cabal-file:
+      size: 874
+      sha256: 2ed6a843ee02bc396a9d0c904a60b2b05e3b40818f5d84da71efb712b2607fe6
+    name: tensorflow-test
+    version: 0.1.0.0
+    git: https://github.com/tensorflow/haskell.git
+    pantry-tree:
+      size: 222
+      sha256: 00b11e018a42f4c9c42f9af4b155c6d6d84be90ffc57ba6e7958cefead8f8596
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+  original:
+    subdir: tensorflow-test
+    git: https://github.com/tensorflow/haskell.git
+    commit: 580917a731a2a02890a1346b19f141838dd62481
+- completed:
+    hackage: snappy-0.2.0.2@sha256:2931b03c5fdab2dac8d7eadb3be2f4ef8906666e43f1f1db65a06efd57ea701b,1591
+    pantry-tree:
+      size: 709
+      sha256: cd05c6ddfbbd3969adab3869d38d161e5ec8e72b1a72e00ca08f5e39538368cf
+  original:
+    hackage: snappy-0.2.0.2
+- completed:
+    hackage: snappy-framing-0.1.1@sha256:1321f0148c87e75202829edac7f375bffa6159dad050b9737403306a493579ba,1196
+    pantry-tree:
+      size: 353
+      sha256: 2e9a622747956d610db12d4876f8421f997d01deecbf6359f0dca2b023c62ecd
+  original:
+    hackage: snappy-framing-0.1.1
 snapshots:
 - completed:
-    size: 488576
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/15/0.yaml
-    sha256: e4b6a87b47ec1cf63a7f1a0884a3b276fce2b0d174a10e8753c4f618e7983568
-  original: lts-15.0
+    size: 523884
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/4.yaml
+    sha256: 16f24be248b42c9e16d59db84378836b1e7c239448a041cae46d32daffa45a8b
+  original: lts-14.4

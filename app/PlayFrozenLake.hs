@@ -3,12 +3,12 @@
 module Main where
 
 import Environment
-import FrozenLakeEnvironment
+import FrozenLakeTensor
 
 main :: IO ()
 main = do
   (env :: FrozenLakeEnvironment) <- basicEnv
-  _ <- runEnv env action
+  results <- runEnv env action
   putStrLn "Done!"
   where
     -- action = resetEnv >> (gameRenderLoop chooseActionUser :: FrozenLake (FrozenLakeObservation, Reward))
