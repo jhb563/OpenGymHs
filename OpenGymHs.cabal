@@ -31,7 +31,9 @@ library
       BlackjackEnvironment
       Environment
       FrozenLake
+      FrozenLakeBasic
       FrozenLakeEnvironment
+      FrozenLakeGloss
   other-modules:
       Paths_OpenGymHs
   hs-source-dirs:
@@ -39,6 +41,7 @@ library
   build-depends:
       base >=4.7 && <5
     , array
+    , gloss
     , MonadRandom
     , mtl
     , random

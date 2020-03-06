@@ -1,4 +1,4 @@
-module FrozenLake where
+module FrozenLakeBasic where
 
 import Control.Monad (forM_)
 import Control.Monad.State
