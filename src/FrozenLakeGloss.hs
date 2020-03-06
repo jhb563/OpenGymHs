@@ -8,16 +8,7 @@ import qualified System.Random as Rand
 import FrozenLakeBasic
 
 windowDisplay :: Display
-windowDisplay = InWindow "Window" (200, 200) (10, 10)
-
-globalCellSize :: Float
-globalCellSize = 50.0
-
-globalXOffset :: Float
-globalXOffset = -75.0
-
-globalYOffset :: Float
-globalYOffset = -75.0
+windowDisplay = InWindow "Window" (400, 400) (10, 10)
 
 data GameResult =
   GameInProgress |
@@ -33,7 +24,7 @@ data World = World
 main :: IO ()
 main = do
   env <- basicEnv
-  play windowDisplay white 1 (World env GameInProgress) drawEnvironment handleInputs stepWorld
+  play windowDisplay white 20 (World env GameInProgress) drawEnvironment handleInputs stepWorld
 
 drawEnvironment :: World -> Picture
 drawEnvironment world
@@ -53,7 +44,7 @@ drawEnvironment world
             Goal -> green
             Hole -> black
             _ -> blue
-       in Translate centerX centerY (Color color' (Polygon [(-25, -25), (-25, 25), (25, 25), (25, -25)]))
+       in Translate centerX centerY (Color color' (Polygon [(-50, -50), (-50, 50), (50, 50), (50, -50)]))
 
     tiles = Pictures $ map f (A.assocs (grid . environment $ world))
 
@@ -61,7 +52,7 @@ drawEnvironment world
     playerMarker = translate px py (Color red (ThickCircle 10 3))
 
 rowColToCoords :: (Word, Word) -> (Float, Float)
-rowColToCoords (row, col) = (50 * (1.5 - fromIntegral col), 50 * (1.5 - fromIntegral row))
+rowColToCoords (row, col) = (100 * (fromIntegral col - 1.5), 100 * (1.5 - fromIntegral row))
 
 handleInputs :: Event -> World -> World
 handleInputs event w
@@ -73,6 +64,7 @@ handleInputs event w
       (EventKey (SpecialKey KeyRight) Down _ _) -> w {environment = fle { currentObservation = newObservation MoveRight, randomGenerator = finalGen} }
       (EventKey (SpecialKey KeyDown) Down _ _) -> w {environment = fle { currentObservation = newObservation MoveDown, randomGenerator = finalGen} }
       (EventKey (SpecialKey KeyLeft) Down _ _) -> w {environment = fle { currentObservation = newObservation MoveLeft, randomGenerator = finalGen} }
+      _ -> w
   where
     fle = environment w
     currentObs = currentObservation fle
