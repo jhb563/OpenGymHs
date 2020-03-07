@@ -48,31 +48,45 @@ data FrozenLakeEnvironment = FrozenLakeEnvironment
   , dimens :: (Word, Word) -- Rows, Cols
   }
 
+resetEnv' :: FrozenLakeEnvironment -> FrozenLakeEnvironment
+resetEnv' fle = fle
+  { currentObservation = 0
+  , previousAction = Nothing
+  }
+
 resetEnv :: (Monad m) => StateT FrozenLakeEnvironment m Observation
 resetEnv = do
-  let initialObservation = 0
-  fle <- get
-  put $ fle { currentObservation = initialObservation, previousAction = Nothing }
-  return initialObservation
+  modify resetEnv'
+  gets currentObservation
+
+stepEnv' :: Action -> FrozenLakeEnvironment -> (FrozenLakeEnvironment, Double, Bool)
+stepEnv' act fle = (finalEnv, reward, done)
+  where
+    currentObs = currentObservation fle
+    (slipRoll, gen') = Rand.randomR (0.0, 1.0) (randomGenerator fle)
+    allLegalMoves = legalMoves currentObs (dimens fle)
+    (randomMoveIndex, finalGen) = Rand.randomR (0, length allLegalMoves - 1) gen'
+    newObservation = if slipRoll >= slipChance fle
+      then if act `elem` allLegalMoves
+        then applyMoveUnbounded act currentObs (snd . dimens $ fle)
+        else currentObs
+      else applyMoveUnbounded (allLegalMoves !! randomMoveIndex) currentObs (snd . dimens $ fle)
+    (done, reward) = case (grid fle) A.! newObservation of
+      Goal -> (True, 1.0)
+      Hole -> (True, 0.0)
+      _ -> (False, 0.0)
+    finalEnv = fle
+      { currentObservation = newObservation
+      , randomGenerator = finalGen
+      , previousAction = Just act
+      }
 
 stepEnv :: (Monad m) => Action -> StateT FrozenLakeEnvironment m (Observation, Double, Bool)
 stepEnv act = do
   fle <- get
-  let currentObs = currentObservation fle
-  let (slipRoll, gen') = Rand.randomR (0.0, 1.0) (randomGenerator fle)
-  let allLegalMoves = legalMoves currentObs (dimens fle)
-  let (randomMoveIndex, finalGen) = Rand.randomR (0, length allLegalMoves - 1) gen'
-  let newObservation = if slipRoll >= slipChance fle
-        then if act `elem` allLegalMoves
-          then applyMoveUnbounded act currentObs (snd . dimens $ fle)
-          else currentObs
-        else applyMoveUnbounded (allLegalMoves !! randomMoveIndex) currentObs (snd . dimens $ fle)
-  let (done, reward) = case (grid fle) A.! newObservation of
-        Goal -> (True, 1.0)
-        Hole -> (True, 0.0)
-        _ -> (False, 0.0)
-  put $ fle {currentObservation = newObservation, randomGenerator = finalGen, previousAction = Just act}
-  return (newObservation, reward, done)
+  let (finalEnv, reward, done) = stepEnv' act fle
+  put finalEnv
+  return (currentObservation finalEnv, reward, done)
 
 -- Does NOT do bounds checking
 applyMoveUnbounded :: Action -> Observation -> Word -> Observation

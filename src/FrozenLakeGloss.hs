@@ -37,8 +37,8 @@ drawEnvironment world
     observationToCoords :: Word -> (Word, Word)
     observationToCoords w = quotRem w 4
 
-    f :: (Word, TileType) -> Picture
-    f (obs, tileType ) =
+    renderTile :: (Word, TileType) -> Picture
+    renderTile (obs, tileType ) =
       let (centerX, centerY) = rowColToCoords . observationToCoords $ obs
           color' = case tileType of
             Goal -> green
@@ -46,7 +46,7 @@ drawEnvironment world
             _ -> blue
        in Translate centerX centerY (Color color' (Polygon [(-50, -50), (-50, 50), (50, 50), (50, -50)]))
 
-    tiles = Pictures $ map f (A.assocs (grid . environment $ world))
+    tiles = Pictures $ map renderTile (A.assocs (grid . environment $ world))
 
     (px, py) = rowColToCoords . observationToCoords $ (currentObservation . environment $ world)
     playerMarker = translate px py (Color red (ThickCircle 10 3))
@@ -57,25 +57,19 @@ rowColToCoords (row, col) = (100 * (fromIntegral col - 1.5), 100 * (1.5 - fromIn
 handleInputs :: Event -> World -> World
 handleInputs event w
   | gameResult w == GameWon || gameResult w == GameLost = case event of
-      (EventKey (SpecialKey KeyEnter) Down _ _) -> World (fle { currentObservation = 0 }) GameInProgress
+      (EventKey (SpecialKey KeyEnter) Down _ _) -> World (resetEnv' fle) GameInProgress
       _ -> w
   | otherwise = case event of
-      (EventKey (SpecialKey KeyUp) Down _ _) -> w {environment = fle { currentObservation = newObservation MoveUp, randomGenerator = finalGen} }
-      (EventKey (SpecialKey KeyRight) Down _ _) -> w {environment = fle { currentObservation = newObservation MoveRight, randomGenerator = finalGen} }
-      (EventKey (SpecialKey KeyDown) Down _ _) -> w {environment = fle { currentObservation = newObservation MoveDown, randomGenerator = finalGen} }
-      (EventKey (SpecialKey KeyLeft) Down _ _) -> w {environment = fle { currentObservation = newObservation MoveLeft, randomGenerator = finalGen} }
+      (EventKey (SpecialKey KeyUp) Down _ _) -> w {environment = finalEnv MoveUp }
+      (EventKey (SpecialKey KeyRight) Down _ _) -> w {environment = finalEnv MoveRight }
+      (EventKey (SpecialKey KeyDown) Down _ _) -> w {environment = finalEnv MoveDown }
+      (EventKey (SpecialKey KeyLeft) Down _ _) -> w {environment = finalEnv MoveLeft }
       _ -> w
   where
     fle = environment w
-    currentObs = currentObservation fle
-    (slipRoll, gen') = Rand.randomR (0.0, 1.0) (randomGenerator fle)
-    allLegalMoves = legalMoves currentObs (dimens fle)
-    (randomMoveIndex, finalGen) = Rand.randomR (0, length allLegalMoves - 1) gen'
-    newObservation action = if slipRoll >= slipChance fle
-      then if action `elem` allLegalMoves
-        then applyMoveUnbounded action currentObs (snd . dimens $ fle)
-         else currentObs
-      else applyMoveUnbounded (allLegalMoves !! randomMoveIndex) currentObs (snd . dimens $ fle)
+    finalEnv action =
+      let (fe, _, _) = stepEnv' action fle
+      in  fe
 
 stepWorld :: Float -> World -> World
 stepWorld _ w = case tile of
